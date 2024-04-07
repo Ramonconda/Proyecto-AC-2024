@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="2.7.1" version="1.0">
+This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
+<lib desc="#Wiring" name="0">
+    <tool name="Splitter">
+      <a name="incoming" val="1"/>
+      <a name="appear" val="center"/>
+    </tool>
+    <tool name="Pin">
+      <a name="facing" val="west"/>
+    </tool>
+    <tool name="Probe">
+      <a name="facing" val="south"/>
+    </tool>
+    <tool name="Pull Resistor">
+      <a name="facing" val="north"/>
+    </tool>
+    <tool name="Clock">
+      <a name="facing" val="north"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#Memory" name="4">
+    <tool name="ROM">
+      <a name="contents">addr/data: 8 8
+0
+</a>
+    </tool>
+  </lib>
+  <lib desc="#I/O" name="5"/>
+  <lib desc="#Base" name="6">
+    <tool name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 20"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+  </lib>
+  <main name="ControlUnit"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool lib="6" map="Button2" name="Menu Tool"/>
+    <tool lib="6" map="Button3" name="Menu Tool"/>
+    <tool lib="6" map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool lib="6" name="Poke Tool"/>
+    <tool lib="6" name="Edit Tool"/>
+    <tool lib="6" name="Text Tool">
+      <a name="text" val=""/>
+      <a name="font" val="SansSerif plain 20"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </tool>
+    <sep/>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="tristate" val="false"/>
+    </tool>
+    <tool lib="0" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="labelloc" val="east"/>
+    </tool>
+    <tool lib="1" name="NOT Gate">
+      <a name="facing" val="north"/>
+      <a name="size" val="20"/>
+    </tool>
+    <tool lib="1" name="AND Gate"/>
+    <tool lib="1" name="OR Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </tool>
+  </toolbar>
+  <circuit name="ControlUnit">
+    <a name="circuit" val="ControlUnit"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="SansSerif plain 12"/>
+    <appear>
+      <rect fill="none" height="191" stroke="#000000" stroke-width="2" width="311" x="50" y="50"/>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="152" y="204">Fetch Instruction</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="87" y="227">Start</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="123" y="227">End</text>
+      <polyline fill="none" points="50,58 70,71" stroke="#000000"/>
+      <polyline fill="none" points="70,71 51,82" stroke="#000000"/>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="73" y="105">RST</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="163" y="227">Ready</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="199" y="218">Load</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="200" y="231">IR</text>
+      <text font-family="SansSerif" font-size="20" text-anchor="middle" x="204" y="150">CU</text>
+      <circ-port height="8" pin="40,20" width="8" x="46" y="96"/>
+      <circ-port height="8" pin="40,60" width="8" x="46" y="66"/>
+      <circ-port height="10" pin="200,500" width="10" x="85" y="235"/>
+      <circ-port height="8" pin="200,540" width="8" x="116" y="236"/>
+      <circ-port height="8" pin="200,580" width="8" x="156" y="236"/>
+      <circ-port height="10" pin="200,620" width="10" x="195" y="235"/>
+      <circ-anchor facing="east" height="6" width="6" x="357" y="147"/>
+    </appear>
+    <wire from="(390,230)" to="(450,230)"/>
+    <wire from="(550,200)" to="(600,200)"/>
+    <wire from="(470,260)" to="(470,270)"/>
+    <wire from="(50,240)" to="(50,320)"/>
+    <wire from="(930,160)" to="(930,190)"/>
+    <wire from="(220,200)" to="(390,200)"/>
+    <wire from="(130,240)" to="(130,260)"/>
+    <wire from="(130,260)" to="(130,280)"/>
+    <wire from="(650,160)" to="(650,190)"/>
+    <wire from="(450,230)" to="(450,260)"/>
+    <wire from="(390,200)" to="(390,230)"/>
+    <wire from="(1020,160)" to="(1020,180)"/>
+    <wire from="(420,160)" to="(650,160)"/>
+    <wire from="(620,220)" to="(620,240)"/>
+    <wire from="(210,230)" to="(210,260)"/>
+    <wire from="(630,210)" to="(930,210)"/>
+    <wire from="(420,210)" to="(460,210)"/>
+    <wire from="(160,210)" to="(190,210)"/>
+    <wire from="(220,220)" to="(250,220)"/>
+    <wire from="(30,220)" to="(60,220)"/>
+    <wire from="(90,230)" to="(120,230)"/>
+    <wire from="(630,190)" to="(650,190)"/>
+    <wire from="(250,220)" to="(250,320)"/>
+    <wire from="(930,160)" to="(1020,160)"/>
+    <wire from="(450,260)" to="(470,260)"/>
+    <wire from="(490,220)" to="(510,220)"/>
+    <wire from="(450,230)" to="(460,230)"/>
+    <wire from="(130,260)" to="(210,260)"/>
+    <wire from="(420,160)" to="(420,210)"/>
+    <wire from="(50,240)" to="(60,240)"/>
+    <wire from="(960,200)" to="(970,200)"/>
+    <wire from="(50,320)" to="(250,320)"/>
+    <wire from="(1010,180)" to="(1020,180)"/>
+    <comp lib="6" loc="(214,460)" name="Text">
+      <a name="text" val="FetchInstruction"/>
+      <a name="font" val="SansSerif plain 16"/>
+    </comp>
+    <comp lib="0" loc="(470,270)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="Start fetch instruction"/>
+    </comp>
+    <comp lib="2" loc="(190,210)" name="Demultiplexer">
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="1" loc="(960,200)" name="OR Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="1" loc="(490,220)" name="OR Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="0" loc="(30,220)" name="Constant">
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="0" loc="(40,20)" name="Tunnel">
+      <a name="label" val="RST"/>
+    </comp>
+    <comp lib="0" loc="(200,620)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="Instruction ready"/>
+    </comp>
+    <comp lib="0" loc="(200,580)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="Instruction ready"/>
+    </comp>
+    <comp lib="1" loc="(90,230)" name="OR Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+    </comp>
+    <comp lib="0" loc="(1000,210)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="RST"/>
+    </comp>
+    <comp lib="0" loc="(130,280)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="RST"/>
+    </comp>
+    <comp lib="0" loc="(510,200)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="CLK"/>
+    </comp>
+    <comp lib="0" loc="(200,500)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="Start fetch instruction"/>
+    </comp>
+    <comp lib="0" loc="(200,540)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="End fetch instruction"/>
+    </comp>
+    <comp lib="0" loc="(970,180)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="CLK"/>
+    </comp>
+    <comp lib="4" loc="(550,200)" name="D Flip-Flop">
+      <a name="label" val="Wait for instruction fetch"/>
+    </comp>
+    <comp lib="0" loc="(40,20)" name="Pin">
+      <a name="tristate" val="false"/>
+    </comp>
+    <comp lib="0" loc="(120,210)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="CLK"/>
+    </comp>
+    <comp lib="0" loc="(200,540)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="End Fectch Instruction"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(200,500)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Start Fectch Instruction"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(40,60)" name="Tunnel">
+      <a name="label" val="CLK"/>
+    </comp>
+    <comp lib="2" loc="(600,200)" name="Demultiplexer">
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="4" loc="(1010,180)" name="D Flip-Flop">
+      <a name="label" val="END"/>
+    </comp>
+    <comp lib="4" loc="(160,210)" name="D Flip-Flop"/>
+    <comp lib="6" loc="(553,138)" name="Text">
+      <a name="text" val="Fetch Instruction"/>
+      <a name="font" val="SansSerif plain 20"/>
+    </comp>
+    <comp lib="0" loc="(620,240)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="End fetch instruction"/>
+    </comp>
+    <comp lib="0" loc="(200,580)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="Instruction Avaiable"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="6" loc="(331,403)" name="Text">
+      <a name="text" val="Control Signals"/>
+      <a name="font" val="SansSerif plain 20"/>
+    </comp>
+    <comp lib="0" loc="(200,620)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="LoadInstructionRegister"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(540,230)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="RST"/>
+    </comp>
+    <comp lib="0" loc="(40,60)" name="Pin">
+      <a name="tristate" val="false"/>
+    </comp>
+  </circuit>
+</project>

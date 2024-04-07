@@ -1,0 +1,11 @@
+La RAM:
+	Tiene 2^16 lineas.
+	En cada linea tiene 16 bytes.
+	Por tanto se pueden direccionar 2^20 bytes.
+	Por tanto las direcciones son de 20 bits.
+	Pero la RAM devuelve una linea completa.
+	Por eso recibe como entrada direcciones de 16 bits.
+	Hay que almacenar que bytes son los que queremos en una linea.
+	Para despues acceder a ese dato especificamente.
+
+	

@@ -1,0 +1,150 @@
+Tipo R:
+Operacion  OPCODE  FUNCODE   FUNCODE#
+add        000000  100000       32
+sub        000000  100010       34
+
+mult       000000  011000       24
+multu      000000  011001       25
+div        000000  011010       26
+divu       000000  011011       27
+
+and        000000  100100       36
+or         000000  100101       37
+nor        000000  100111       39
+xor	   000000  101000       40
+
+slt        000000  101010       42
+sltu       000000  101011       43 
+
+mfhi       000000  010000       16
+mflo       000000  010010       18
+
+nop        000000  000000       0
+
+jr         000000  001000       8 
+
+pop        111000  000000
+push       111000  000001
+
+halt       111111  111111
+tty        111111  000001
+rnd        111111  000010
+kbd        111111  000100
+
+Tipo I:
+Operacion  OPCODE 
+addi       001000    8
+andi       001100   12
+ori        001101   13
+xori       001110   14
+
+stli       001010   10
+stliu      001011   11
+
+beq        000100    4
+bne        000101    5
+blez       000110    6
+bgtz       000111    7
+bltz       000001    1
+
+lw         100011   35
+sw         101011   43
+
+
+Tipo J:
+Operacion  OPCODE
+j          000010     2  
+
+En total existen 36 instrucciones en el procesador s-mips. Debemos asignar una codificacion unica a cada instruccion.
+Para ello usaremos su OPCODE y opcionalmente su FUNCODE.
+La siguiente tabla representa dicha asignacion.
+
+TABLA DE ASIGNACIONES
+0  nop              32 add
+1  bltz             33
+2  j                34 sub
+3  jr               35 lw
+4  beq              36 and
+5  bne              37 or
+6  blez             38 
+7  bgtz             39 nor
+8  addi             40 xor
+9                   41 sltu
+10 stli             42 slt
+11 stliu            43 sw
+12 andi             44
+13 ori              45
+14 xori             46
+15                  47
+16 mfhi             48 pop
+17                  49 push
+18 mflo             50
+19                  51
+20                  52
+21                  53
+22                  54
+23                  55
+24 mult             56 
+25 multu            57 tty
+26 div              58 rnd
+27 divu             59
+28                  60 kbd
+29                  61 
+30                  62 
+31                  63 halt
+
+A partir de la tabla necesitamos una forma de traducirla a un circuito para que el
+InstructionDecoder pueda transmitir la codificacion unica correspondiente a la instruccion
+decodificada.
+
+El siguiente psudocodigo representa el algoritmo usado para la codificacion:
+NOTA : Hay instrucciones para las que no tiene sentido usar el FUNCODE, por ejemplo j (jump), esto se tiene en cuenta.
+
+CodificarInstruccion( OPCODE, FUNCODE): Devuelve 6 bits, OPCODE es de 6bits, FUNCODE es de 6bits.
+    switch(OPCODE):
+        case 000000:
+            switch(FUNCODE):
+                case 101011:
+                    return 101001 // La instruccion stlu coincide en la celda 43 con la instruccion sw, por tanto le  asignamos la celda 41
+                case 001000:
+                    return 000011 // La instruccion jr coincide en la celda 8 con la instruccion addi, por tanto le asignamos la celda 3
+                default:
+                    return FUNCODE // Las demas instrucciones no presentan conflictos, asi que las asignamos directamente por su FUNCODE para mayor comodidad
+        case 111000:
+            return 110000 or FUNCODE // Se asigna a la instruccion pop la celda 48 y a la instruccion push la celda 49. No se usa 111000 porque ahi estan las instrucciones tty ...
+        case 111111:
+            return 111000 or FUNCODE // Se asigna a las instrucciones tty, kbd, rnd, halt, una codificacion donde se mantienen los 3 bits menos significativos del FUNCODE para identificarlos.
+        default:
+            return OPCODE // El resto de instrucciones se representa sin conflictos por su OPCODE
+
+Para llevar esto a circuito pensemoslo de atras hacia delante, tenemos una salida CODE, que puede tomar 6 valores distintos, esto es un multiplexer con un selector de 3 bits
+que puede soportar 8 valores.
+Ahora asignemos equivalencias al selector:
+
+(OPCODE == 0 and FUNCODE == 41) = 0
+(OPCODE == 0 and FUNCODE == 8)  = 1
+(OPCODE == 0 and FUNCODE != 41 and FUNCODE != 8) = 2
+(OPCODE == 56) = 3
+(OPCODE == 63) = 4
+(OPCODE != 0 and OPCODE != 56 and OPCODE != 63) = 5
+
+Se hace la tabla veritativa
+
+OPCODE	FUNCODE S2 S1 S0
+000000  101011  0  0  0
+000000  001000  0  0  1
+000000  (Resto)	0  1  0
+111000  (Todos) 0  1  1
+111111  (Todos) 1  0  0
+(Resto) (Todos) 1  0  1
+
+Llamemos a los bits de OPCODE p0..p5 y a los bits de FUNCODE f0..f5
+p0 es el de mas a la derecha, igualmente f0
+
+s2 = (p0 and p1 and p2 and p3 and p4 and p5) or ~( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) or (p0 and p1 and p2 and p3 and p4 and p5) or (~p0 and ~p1 and ~p2 and p3 and p4 and p5) )
+
+s1 = (~p0 and ~p1 and ~p2 and p3 and p4 and p5) or ( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) and ~( (f0 and f1 and ~f2 and f3 and ~f4 and f5) or (~f0 and ~f1 and ~f2 and f3 and ~f4 and ~f5)  ) )
+s1 = (~p0 and ~p1 and ~p2 and p3 and p4 and p5) or ( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) and ~( ~f2 and f3 and ~f4 and ( (f0 and f1 and f5) or (~f0 and ~f1 and ~f5) ) ) )
+
+~s0 = (p0 and p1 and p2 and p3 and p4 and p5) or ( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) and ~(~f0 and ~f1 and ~f2 and f3 and ~f4 and ~f5) )
+=> s0 = ~(p0 and p1 and p2 and p3 and p4 and p5) and ~( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) and ~(~f0 and ~f1 and ~f2 and f3 and ~f4 and ~f5) )

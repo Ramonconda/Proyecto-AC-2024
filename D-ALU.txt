@@ -1,0 +1,18 @@
+add
+sub
+mult
+multu
+divu
+and
+or
+nor
+xor
+slt (menor que)
+sltu (menor que sin signo)
+
+
+0100 mult
+0101 multu
+0110 div
+0111 divu
+

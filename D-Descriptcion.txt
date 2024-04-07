@@ -1,0 +1,15 @@
+Le dan reset al microprocesador. Cuando le apagan el reset empieza a funcionar.
+
+El program counter empieza por defecto en 0.
+
+Carga de la memoria la instruccion que esta almacenada en el program counter.
+	-A partir del PC identifica:
+		-linea a cargar
+		-banco a cargar (offset en la linea)
+	-Carga dicha linea
+	-Devuelve el banco adecuado
+Almacena dicha instruccion en el data path.
+
+Nota: Cuando se carga la instruccion se espera un ciclo extra para que se
+guarde en el data path.
+
