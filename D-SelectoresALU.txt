@@ -1,0 +1,14 @@
+ALU
+
+Entrada
+A
+	PC (PC + 4)
+	Rs (add,sub,mult,multu,div,divu,addi,and,or,nor,xor,andi,ori,xori,slt,sltu,slti,sltiu,beq,bne,blez,bgtz,bltz,lw,sw)
+	SP (SP + 4, SP - 4)
+B
+	4  (PC + 4)
+	Rt (add,sub,mult,multu,div,divu,and,or,nor,xor,slt,sltu,slti,sltiu,beq,bne)
+	const (addi,andi,ori,xori,slti,lw,sw)
+	offset (beq,bne,blez,bgtz,bltz)
+	0 (blez,bgtz,bltz)
+	

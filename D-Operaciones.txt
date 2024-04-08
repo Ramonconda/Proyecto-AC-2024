@@ -1,0 +1,35 @@
+Notacion:
+ALU -> Unidad Logico Aritmetica
+BC -> Branch Control
+RF -> Register File
+PC -> Program Counter
+
+
+Forward Program Counter:
+	Activa el load del PC
+	En el ALU modifica los selectores de las entradas:
+		- Pon en 0 SA para que le llegue PC a A
+		- Pon en 0 SB para que le llegue 4 a B
+	En el ALU modifica el selector de operacion:
+		- Pon en 0 SOP para que se haga A + B
+	(Probablemente la entrada del BC contenga un selector)
+	En el proximo ciclo se actualiza el PC con PC + 4.
+	
+
+ADD
+	En el RF modifica selectores para alterar las salidas:
+		- pasa RS a SRA para que salga [RS] por RA
+		- pasa RT a SRB para que salga [RT] por RB 
+	En el ALU modifica los selectores de las entradas:
+		- Pon en 1 SA para que le llegue RA a A
+		- Pon en 1 SB para que le llegue RB a B
+	En el ALU modifica el selector de operacion:
+		- Pon SOP en 0 para que se haga A + B
+	En el RF pasa informacion para escribir el resultado de la suma:
+		- activa el WRITE
+		- (selector de Data In para que reciba la salida de la ALU)
+		- (selector de Write address para que reciba la salida de RD)
+	Todas estas operaciones son combinatorias.
+	En el proximo ciclo de reloj se escribe en el registro RD <- [RS] + [RT]
+	Cede el flujo de ejecucion a Forward PC.
+	

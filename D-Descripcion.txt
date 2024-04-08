@@ -13,3 +13,10 @@ Almacena dicha instruccion en el data path.
 Nota: Cuando se carga la instruccion se espera un ciclo extra para que se
 guarde en el data path.
 
+La instruccion se almacena en el Intstruccion Register (IR) del Data Path.
+Inmediatamente es decodificada por el Instruccion Decoder (ID) del Data Path.
+
+En el ID se obtiene informacion relevante de la instruccion asi como su codigo unico.
+De no ser valido el codigo unico el procesador entra en un estado invalido.
+
+

@@ -1,0 +1,32 @@
+RF
+
+Entradas
+
+Write
+	(add,sub,addi,and,or,nor,xor,andi,ori,xori,slt,sltu,slti,sltiu,mfhi,mflo,lw,pop,push,rnd)
+
+Write Address:
+	RD (add,sub,and,or,nor,xor,slt,sltu,mfhi,mflo,pop,rnd)
+	RT (addi,andi,ori,xori,slti,sltiu,lw)
+	SP (pop,push)
+
+Data In:
+	ALU Result (add,sub,addi,and,or,nor,xor,andi,ori,xori,slt,sltu,slti,sltiu,lw,pop,push)
+	[Hi]
+	[Lo]
+	//Random number
+
+SRA:
+	RS (add,sub,mult,mulu,div,divu,addi,and,or,nor,xor,andi,ori,xori,slt,sltu,slti,sltiu,beq,bne,blez,bgtz,bltz,jr,lw,sw,push,tty)
+
+SRB:
+	Rt (add,sub,mult,mulu,div,divu,and,or,nor,xor,slt,sltu,beq,bne,sw)
+
+Write Lo
+	(mul,mulu,div,divu)
+Lo in
+	ALU LO (mul,mulu,div,divu)
+Write Hi
+ 	(mul,mulu,div,divu)
+Hi in
+	ALU HI (mul,mulu,div,divu)

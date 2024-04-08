@@ -91,7 +91,7 @@ TABLA DE ASIGNACIONES
 28                  60 kbd
 29                  61 
 30                  62 
-31                  63 halt
+31 INVALID          63 halt
 
 A partir de la tabla necesitamos una forma de traducirla a un circuito para que el
 InstructionDecoder pueda transmitir la codificacion unica correspondiente a la instruccion
@@ -148,3 +148,7 @@ s1 = (~p0 and ~p1 and ~p2 and p3 and p4 and p5) or ( (~p0 and ~p1 and ~p2 and ~p
 
 ~s0 = (p0 and p1 and p2 and p3 and p4 and p5) or ( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) and ~(~f0 and ~f1 and ~f2 and f3 and ~f4 and ~f5) )
 => s0 = ~(p0 and p1 and p2 and p3 and p4 and p5) and ~( (~p0 and ~p1 and ~p2 and ~p3 and ~p4 and ~p5) and ~(~f0 and ~f1 and ~f2 and f3 and ~f4 and ~f5) )
+
+
+NOTA: El estado INVALID sera devuelto por el Instruction Decoder si la instruccion cargada de la
+memoria no es una instruccion reconocida en el juego de instrucciones.
