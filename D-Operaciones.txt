@@ -65,7 +65,7 @@ ADDI, ANDI , ORI, XORI, SLTI,STLUI
 		- pon en 0 el selector del DATA IN para escribir el resultado de la ALU
 	En la ALU :
 		- Pon en 1 SA para que llegue RA a A
-		- Pon en 3 SB para que llegue la constante extendida con signo a B
+		- Pon en 2 SB para que llegue la constante extendida con signo a B
 		- Pon el selector de operacion correspondiente:
 			- add 0  0000
 			- stl 2     0010
