@@ -1,0 +1,19 @@
+El Zero Flag es un bit de la ALU que se activa cuando ambas entradas son iguales.
+El Negative Flag es un bit de la ALU que se activa cuando el resultado de una operacion es negativo.
+
+Consideremos las entradas de la ALU, A,B y la operacion substraccion.
+
+ A = B  si y solo si A - B = 0
+Por tanto, al restar si se activa el ZF entonces son iguales las entradas.
+A < B si y solo si A - B < 0
+Por tanto al restar si se activa el NF entonces A < B, si no se activa A >= B
+Hagamos una tabla resumiendo los resultados:
+
+ZF	NF	A r B
+0	0	A > B
+0	1	A < B
+1	0	A = B
+1	1	(Inmposible)
+
+
+A <= B  si y solo si A = B or A < B si y solo si ZF = 1 or NF = 1

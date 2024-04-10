@@ -14,9 +14,10 @@ Forward Program Counter:
 		- Pon en 0 SOP para que se haga A + B
 	(Probablemente la entrada del BC contenga un selector)
 	En el proximo ciclo se actualiza el PC con PC + 4.
+
 	
 
-ADD
+ADD,SUB,AND,OR,XOR,NOR,SLT, SLTU
 	En el RF modifica selectores para alterar las salidas:
 		- pasa RS a SRA para que salga [RS] por RA
 		- pasa RT a SRB para que salga [RT] por RB 
@@ -24,12 +25,135 @@ ADD
 		- Pon en 1 SA para que le llegue RA a A
 		- Pon en 1 SB para que le llegue RB a B
 	En el ALU modifica el selector de operacion:
-		- Pon SOP en 0 para que se haga A + B
+		- add 0	0000
+		- sub 1	0001
+		- stl 2     0010
+		-stlu 3     0011
+		- and 8	1000
+		- or  9	1001
+		- nor 10	1010
+		- xor 11	1011
 	En el RF pasa informacion para escribir el resultado de la suma:
 		- activa el WRITE
 		- (selector de Data In para que reciba la salida de la ALU)
 		- (selector de Write address para que reciba la salida de RD)
 	Todas estas operaciones son combinatorias.
 	En el proximo ciclo de reloj se escribe en el registro RD <- [RS] + [RT]
+
 	Cede el flujo de ejecucion a Forward PC.
-	
+
+Mult,Multu, Div, Divu
+	En el RF modifica selectores para alterar las salidas:
+		- pasa RS a SRA para que salga [RS] por RA
+		- pasa RT a SRB para que salga [RT] por RB
+	En el ALU modifica los selectores de las entradas:
+		- Pon en 1 SA para que le llegue RA a A
+		- Pon en 1 SB para que le llegue RB a B
+	El el ALU modifica el selector de operacion:
+		-mult  4 0100
+		-multu 5 0101
+		-div   6 0110
+		-divu  7 0111
+	En el RF activa los load de los registros HI and LO para que se guarden los resultados
+
+ADDI, ANDI , ORI, XORI, SLTI,STLUI
+	En el RF modifica selectores para alterar las salidas:
+		- pasa RS a SRA para que salga [RS] por RA
+	En el RF modifica selectores para escribir en los registros
+		- activa WRITE RF
+		- pon en 1 el selector del WRITE ADDRESS para escribir en RT
+		- pon en 0 el selector del DATA IN para escribir el resultado de la ALU
+	En la ALU :
+		- Pon en 1 SA para que llegue RA a A
+		- Pon en 3 SB para que llegue la constante extendida con signo a B
+		- Pon el selector de operacion correspondiente:
+			- add 0  0000
+			- stl 2     0010
+			-stlu 3     0011
+			- and 8  1000
+			- or  9  1001
+			- xor 11 1011
+
+MFHI
+	En el RF:
+		-activa el WRITE
+		-Pon el selector del WRITE ADDRESS en 0 para escribir en RD
+		-Pon el selector del DATA IN en 1 para escribir el valor del HI
+MFLO
+	En el RF:
+		-activa el WRITE
+		-Pon el selector del WRITE ADDRESS en 0 para escribir en RD
+		-Pon el selector del DATA IN en 2 para escribir el valor del LO
+
+BEQ (Version Inicial)
+	En el RF:
+		- Pon en SRA el valor de RS para que se cargue [RS] en RA
+		- Pon en SRB el valor de RT para que se cargue [RT] en RB
+	En la ALU:
+		- Pon en 1 SA para que se cargue en A el valor de RA
+		- Pon en 1 SB para que se cargue en B el valor de RB
+		- Pon en 1 el selector de operacion para que se haga la resta
+	(NOTA: Ver documentacion del ZeroFlag, NegativeFlag)
+	Si ZF es 0
+		En otro ciclo:
+		Hacer PC = PC + 4
+			- Poner ambos selectores de la entrada de la ALU en 0
+			- Activar el Load PC para que se actualice PC en el proximo ciclo.
+	Si ZF es 1
+		En otro ciclo:
+		Hacer PC = PC + 4
+			- Poner ambos selectores de la entrada de la ALU en 0
+			- Activar el Load PC para que se guarde el resultado en el proximo ciclo.
+		En otro ciclo:
+		Hacer PC = PC + offset
+			- Poner SA de la ALU en 0 para que entre PC en A
+			- Poner SB de la ALU en 3 para que entre offset en B
+			- Activar el Load PC para que se actualice PC en el proximo ciclo.
+			
+BEQ (Version mejorada)
+	(Siempre se ejecuta a pesar de la branch que se seleccione)
+	Hacer PC = PC + 4
+		- Poner ambos selectores de la entrada de la ALU en 0
+		- Activar el Load PC para que se actualice en el proximo ciclo
+	En el proximo ciclo:
+	En el RF:
+		- Pon en SRA el valor de RS para que se cargue [RS] en RA
+		- Pon en SRB el valor de RT para que se cargue [RT] en RB
+	En la ALU:
+		- Pon en 1 SA para que se cargue en A el valor de RA
+		- Pon en 1 SB para que se cargue en B el valor de RB
+		- Pon en 1 el selector de operacion para que se haga la resta
+	Si ZF es 0 termina
+	Si ZF es 1:
+		En el proximo ciclo:
+		En la AlU:
+			-Pon SA en 0 para que entre PC en A
+			-Pon SB en 4 para que entre offset en B
+			-Activa el Load PC para que se actualice en el proximo ciclo.
+	En total consume a lo sumo tres ciclos de reloj.
+BNE (Igual que BEQ pero se intercambia el significado del ZF)
+BLEZ
+	(Siempre se ejecuta a pesar de la branch que se seleccione)
+	Hacer PC = PC + 4
+		- Poner ambos selectores de la entrada de la ALU en 0
+		- Activar el Load PC para que se guarde el resultado en el proximo ciclo.
+	En otro ciclo:
+	En el RF:
+		- Poner en SRA el valor de RS para que se cargue [RS] en RA
+	En la ALU:
+		- Poner en 1 SA para que se cargue en A el valor de RA
+		- Poner en 3 SB para que se cargue 0 en B
+		- Poner en 1 el selector de operacion para que se realice la resta
+	(Igual que BEQ pero se decide usando ZF or NF)
+BGTZ (Igual que BLEZ pero se decide usando not (ZF or NF) )
+BLTZ (Igual que BLEZ pero se decide usando NF )
+
+
+J (JUMP)
+	En el BC:
+		- Pon en 1 el selector del BC para que le entre el destino del salto
+	En el proximo ciclo de reloj se actualiza PC con destino
+JR (JUMP REGISTER)
+	En el BC:
+		- Pon en 2 el selector del BC para que le entre el valor de RA
+	En el proximo ciclo de reloj se actualiza PC con RA
