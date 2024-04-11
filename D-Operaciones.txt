@@ -211,3 +211,42 @@ FETCH INSTRUCTION
 	Espera un ciclo para que se guarde la instruccion en el IR.
 	
 	En el proximo ciclo se lee la instruccion.
+
+
+PUSH
+	En la ALU:
+		- Poner SA en 2 para que llegue el valor de SP a A
+		- Poner SB en 0 para que llegue 4 a B
+		- Poner el selector de operacion en 1 para que se reste
+	En el RF:
+		- Poner en 2 el WRITE ADDRESS para escribir en el registro SP
+		- Activar el WRITE
+		- Poner en 0 el selector del DATA IN para que se escriva SP - 4 (el resultado de la ALU)
+	Esperar un ciclo
+	
+	Para escribir:
+		- Poner en 1 el STACK OPERATION para que se escriba en la direccion del registro SP y se ecriba el valor de RS
+	Darle Start al RAM WRITER
+	Esperar a que termine
+	Ceder la ejecucion al FORWARD PC
+
+POP
+	Para leer:
+	- Poner en 1 el STACK OPERATION para que se lea el valor en la direccion del registro SP
+	Darle Start al RAM READER
+	Cuando termine
+	En el RF:
+		- Poner en 0 el WRITE ADDRESS para escribir en RD
+		- Poner en 4 el selector del DATA IN para escribir el RAM OUTPUT
+		- Activar el WRITE
+	Espera un ciclo para que escriba
+	En la ALU:
+		- Poner SA en 2 para que le llegue SP a A
+		- Poner SB en 0 para que le llegue 4 a B
+		- Poner el selector de operacion en 0 para que se sume
+	En el RF:
+		- Poner el WRITE ADDRESS en 2 para escribir SP
+		- Poner el selector del DATA IN en 0 para que se escriba el resultado de la ALU
+		- Activar el WRITE
+	Esperar un ciclo para que se escriba.
+	Ceder el control al FORWARD PC
