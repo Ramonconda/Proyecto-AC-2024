@@ -250,3 +250,10 @@ POP
 		- Activar el WRITE
 	Esperar un ciclo para que se escriba.
 	Ceder el control al FORWARD PC
+
+RND
+	En el RF:
+		- Pon el selector del DATA IN en 3 para que reciba un numero aleatorio
+		- Pon el WRITE ADDRESS en 0 para que se escriba RD
+		- activa el WRITE
+	eSPERA UN CICLO DE RELOJ
