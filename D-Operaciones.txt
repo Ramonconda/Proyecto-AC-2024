@@ -3,7 +3,7 @@ ALU -> Unidad Logico Aritmetica
 BC -> Branch Control
 RF -> Register File
 PC -> Program Counter
-
+IR -> Instruction Register
 
 Forward Program Counter:
 	Activa el load del PC
@@ -157,3 +157,57 @@ JR (JUMP REGISTER)
 	En el BC:
 		- Pon en 2 el selector del BC para que le entre el valor de RA
 	En el proximo ciclo de reloj se actualiza PC con RA
+
+RAM READER
+	- Pasarle el Address
+	- Activar el Start
+	Esperar a que se lea 
+	Cuando se termina de leer el valor esta disponible en RAM OUT y se activa el END por un ciclo de reloj
+RAM WRITTER
+	- Pasarle el Address
+	- Pasarle el Valor
+	- Activar el Start
+	Esperar a que se escriba
+	Cuando se termina de escribir se activa el END
+
+SW (Store Word):
+	En el RF:
+		- Modifica el selector SRA para que salga [RS] por RA
+		- Modifica el selector SRB para que salga [RT] por RB 
+	En el ALU:
+		- Pon SA en 1 para que le entre RA a A
+		- Pon SB en 2 para que le entre a B la constante extendida
+		- Pon el selector de operacion en 0 para que se sume
+	La salida de la ALU corresponde a la direccion de memoria a escribir.
+	Darle Start al RAM WRITTER
+	Esperar al END
+	Ceder el paso a FORWARD PC
+
+LW (Load Word):
+	En el RF:
+		- Modifica el selector SRA para que salga [RS] por RA
+		- Modifica el selector SRB para que salga [RT] por RB 
+	En el ALU:
+		- Pon SA en 1 para que le entre RA a A
+		- Pon SB en 2 para que le entre a B la constante extendida
+		- Pon el selector de operacion en 0 para que se sume
+	La salida de la ALU corresponde a la direccion de memoria a escribir.
+	Darle Start al RAM READER
+	Esperar al END
+	En el RAM OUT esta el valor leido de la RAM
+	En el RF:
+		- Poner en 1 el WRITE ADDRESS para escribir en RT
+		- Activar el WRITE
+		- Poner en 4 el DATA IN para que se escriba la salida del RAM READER
+	
+FETCH INSTRUCTION
+	- Activa el selector fetch instruction para que le llegue PC como direccion a leer por el RAM READER
+	Dale Start al RAM READER
+	Esperar al END
+	En la salida del RAM READER esta la instruccion
+	
+	- Pon en 3 el branch selector para que le llegue como entrada al PC el valor leido de la RAM.
+	
+	Espera un ciclo para que se guarde la instruccion en el IR.
+	
+	En el proximo ciclo se lee la instruccion.

@@ -7,5 +7,3 @@ La RAM:
 	Por eso recibe como entrada direcciones de 16 bits.
 	Hay que almacenar que bytes son los que queremos en una linea.
 	Para despues acceder a ese dato especificamente.
-
-	
